@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "dotenvx run -- tsx watch src/bot.ts",
-    "start": "dotenvx run -- node dist/bot.js",
+    "start": "dotenvx run -- pm2 start dist/bot.js",
     "build": "dotenvx run -- tsup src/bot.ts --minify"
   },
   "dependencies": {
