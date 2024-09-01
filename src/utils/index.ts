@@ -1,0 +1,1 @@
+export { handleDiceRoll } from './handleDiceRoll';

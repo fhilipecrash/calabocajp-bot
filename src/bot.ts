@@ -4,10 +4,11 @@ import { commands } from "./commands";
 import { config } from "./config";
 import { Player } from "discord-player";
 import { YoutubeiExtractor } from "discord-player-youtubei";
+import { handleDiceRoll } from "./utils";
 
 async function startBot() {
   const client = new Client({
-    intents: ["Guilds", "GuildMessages", "DirectMessages", "GuildVoiceStates"],
+    intents: ["Guilds", "GuildMessages", "DirectMessages", "GuildVoiceStates", "MessageContent"],
   });
 
   const player = new Player(client);
@@ -36,6 +37,10 @@ async function startBot() {
       await commands[commandName as keyof typeof commands].execute(interaction);
     }
   });
+
+  client.on('messageCreate', (message) => {
+    handleDiceRoll(message);
+  });  
 
   player.events.on('playerStart', (queue, track) => {
     queue.metadata.channel.send(`Started playing **${track.title}**!`);
