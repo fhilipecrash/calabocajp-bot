@@ -6,7 +6,7 @@ export const data = new SlashCommandBuilder()
   .setDescription("Plays YouTube music")
   .addStringOption(option => 
     option.setName('query')
-        .setDescription('Enter a music name')
+        .setDescription('Enter a music name or YouTube URL')
         .setRequired(true));
 
 export async function execute(interaction: CommandInteraction) {

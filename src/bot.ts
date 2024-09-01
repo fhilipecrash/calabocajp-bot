@@ -3,6 +3,7 @@ import { deployCommands } from "./deploy-commands";
 import { commands } from "./commands";
 import { config } from "./config";
 import { Player } from "discord-player";
+import { YoutubeiExtractor } from "discord-player-youtubei";
 
 async function startBot() {
   const client = new Client({
@@ -10,11 +11,16 @@ async function startBot() {
   });
 
   const player = new Player(client);
+  await player.extractors.register(YoutubeiExtractor, {
+    authentication: config.YOUTUBE_ACCESS_TOKEN
+  })
 
-  await player.extractors.loadDefault();
-
-  client.once("ready", () => {
+  client.once("ready", async () => {
     console.log("Discord bot is ready! 🤖");
+    const guilds = client.guilds.cache.map(guild => guild.id);
+    for (const guildId of guilds) {
+      await deployCommands({ guildId });
+    }
   });
 
   client.on("guildCreate", async (guild) => {
